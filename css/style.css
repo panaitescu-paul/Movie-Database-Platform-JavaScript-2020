@@ -26,6 +26,14 @@
     float: right;
 }
 
+/*.btnSearch {*/
+/*    width: 100%;*/
+/*    display: block;*/
+/*}*/
+
+#errorMessage {
+    display: none;
+}
 
 /* Movie Search Result*/
 

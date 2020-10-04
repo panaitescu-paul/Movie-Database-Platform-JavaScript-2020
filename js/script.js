@@ -82,6 +82,7 @@ $(document).ready(function() {
             // Option 2: Search for Movie Title and Year
             let movieName = searchInput.slice(0, -5);
             let movieYear = searchInput.slice(-4);
+            let movieFound = false;
             console.log("movieName", movieName);
             console.log("searchInput", searchInput);
             console.log("movieYear", movieYear);
@@ -98,6 +99,7 @@ $(document).ready(function() {
                 $.each(data.results, function (index1, movie) {
                     console.log(searchInput.substring(-4));
                     if (movieYear == movie.release_date.substring(0,4)) { //check if the Searched Movie has the same Year with the release date
+                        movieFound = true;
                         const movieItem = $("<article />", {
                             "id": movie.id
                         });
@@ -116,6 +118,9 @@ $(document).ready(function() {
                         movieItem.appendTo($("#searchResult")); // Add to the DOM element
                     }
                 });
+                if (!movieFound) {
+                    showError("movie and year");
+                }
             })
             .fail(function (data) {
                 showError(data.status.toString());
@@ -174,6 +179,7 @@ $(document).ready(function() {
 
         switch (codeStatus) {
             case "empty": msgError = "Please enter a Movie Name or Person Name"; break;
+            case "movie and year": msgError = "The is not information about this Movie and Year"; break;
             case "404": msgError = "The is not information about this Movie/Person"; break;
             default: msgError = "There was an error while processing your request..."; break;
         }
