@@ -214,6 +214,11 @@ $(document).ready(function() {
         console.log("showMovieInfo");
         console.log("id", id);
 
+        // Empty the previous Results
+        $("#movieInfoContent").empty();
+        // $("#searchResult").show();
+        // $("#errorMessage").hide();
+
         const movieId = id;
         const URLMovieInfo = 'https://api.themoviedb.org/3/movie/' + movieId +
                              '?api_key=' + tmdbAPIKey + '&language=en-US';
