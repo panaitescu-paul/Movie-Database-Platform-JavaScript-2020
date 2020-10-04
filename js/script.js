@@ -12,6 +12,8 @@ $(document).ready(function() {
 
         // Empty the Search Result
         $("#searchResult").empty();
+        $("#searchResult").show();
+        $("#errorMessage").hide();
 
         if (searchInput == "") {
             showError("empty");
@@ -165,12 +167,20 @@ $(document).ready(function() {
 
     })
 
+    // Show an Error Message based on the received Code Status
+    function showError(codeStatus) {
+        console.log("codeStatus", codeStatus);
+        let msgError;
 
+        switch (codeStatus) {
+            case "empty": msgError = "Please enter a Movie Name or Person Name"; break;
+            case "404": msgError = "The is not information about this Movie/Person"; break;
+            default: msgError = "There was an error while processing your request..."; break;
+        }
+        $("#errorMessage").html(msgError);
+        $("#searchResult").hide();
+        $("#errorMessage").show();
 
-
-
-    // TODO: implement
-    function showError(error) {
-        console.log("error", error);
     }
+
 });
