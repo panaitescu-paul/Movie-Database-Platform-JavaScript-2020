@@ -3,6 +3,7 @@ $(document).ready(function() {
     // $("#person-search-result").hide();
     // $("#movie-info").hide();
     // $("#movie-info").hide();
+    $("#errorMessage").hide();
     console.log("test", 1);
 
     // "Search" button clicked
@@ -52,6 +53,7 @@ $(document).ready(function() {
             })
             .done(function (data) {
                 console.log("data", data);
+                // TODO: add error for no matches
                 console.log("data title", data.results[0].title);
                 $.each(data.results, function (index1, movie) {
                     const movieItem = $("<article />", {
@@ -68,6 +70,10 @@ $(document).ready(function() {
                     $("<section />", {
                         "text": "Language: " + movie.original_language
                     }).appendTo(movieItem);
+
+                    movieItem.on("click", function() {
+                        showMovieInfo(movie.id);
+                    });
 
                     movieItem.appendTo($("#searchResult")); // Add to the DOM element
                 });
@@ -96,6 +102,7 @@ $(document).ready(function() {
             .done(function (data) {
                 console.log("data", data);
                 console.log("data title", data.results[0].title);
+                // TODO: add error for no matches
                 $.each(data.results, function (index1, movie) {
                     console.log(searchInput.substring(-4));
                     if (movieYear == movie.release_date.substring(0,4)) { //check if the Searched Movie has the same Year with the release date
@@ -114,6 +121,10 @@ $(document).ready(function() {
                         $("<section />", {
                             "text": "Language: " + movie.original_language
                         }).appendTo(movieItem);
+
+                        movieItem.on("click", function() {
+                            showMovieInfo(movie.id);
+                        });
 
                         movieItem.appendTo($("#searchResult")); // Add to the DOM element
                     }
@@ -149,6 +160,7 @@ $(document).ready(function() {
                 .done(function (data) {
                     console.log("data", data);
                     console.log("data name", data.results[0].name);
+                    // TODO: add error for no matches
                     $.each(data.results, function (index1, person) {
                         console.log(searchInput);
                         const personItem = $("<article />", {
@@ -162,6 +174,10 @@ $(document).ready(function() {
                             "text": "Main Activity: " + person.known_for_department
                         }).appendTo(personItem);
 
+                        personItem.on("click", function() {
+                            showPersonInfo(person.id);
+                        });
+
                         personItem.appendTo($("#searchResult")); // Add to the DOM element
                     });
                 })
@@ -170,7 +186,7 @@ $(document).ready(function() {
                 });
         }
 
-    })
+    });
 
     // Show an Error Message based on the received Code Status
     function showError(codeStatus) {
@@ -187,6 +203,16 @@ $(document).ready(function() {
         $("#searchResult").hide();
         $("#errorMessage").show();
 
+    }
+
+    function showMovieInfo(id) {
+        console.log("showMovieInfo");
+        console.log("id", id);
+    }
+
+    function showPersonInfo(id) {
+        console.log("showPersonInfo");
+        console.log("id", id);
     }
 
 });
