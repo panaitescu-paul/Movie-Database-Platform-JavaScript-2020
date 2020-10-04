@@ -226,50 +226,101 @@ $(document).ready(function() {
             url: URLMovieInfo,
             type: "GET"
         })
-            .done(function (movie) {
-                console.log("movie", movie);
-                // TODO: add error for no matches
-                const movieInfo = $("<article />", {
-                    "class": "movieInfo",
-                    "id": movie.id
-                });
-
-                $(movieInfo).html(
-                    '<section>\
-                        <span class="tag">Title: </span>\
-                        <span class="body">' + movie.original_title + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Release Date: </span>\
-                        <span class="body">' + movie.release_date + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Original Language: </span>\
-                        <span class="body">' + movie.original_language + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Runtime: </span>\
-                        <span class="body">' + movie.runtime + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Overview: </span>\
-                        <span class="body">' + movie.overview + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Homepage: </span>\
-                        <span class="body">' + movie.homepage + '</span>\
-                    </section>'
-                );
-
-                // movieInfo.on("click", function() {
-                //     showPersonInfo(person.id);
-                // });
-
-                movieInfo.appendTo($("#movieInfoContent")); // Add to the DOM element
-            })
-            .fail(function (data) {
-                showError(data.status.toString());
+        .done(function (movie) {
+            console.log("movie", movie);
+            // TODO: add error for no matches
+            const movieInfo = $("<article />", {
+                "class": "movieInfo",
+                "id": movie.id
             });
+
+            $(movieInfo).append(
+                '<section>\
+                    <span class="tag">Title: </span>\
+                    <span class="body">' + movie.original_title + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Release Date: </span>\
+                    <span class="body">' + movie.release_date + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Original Language: </span>\
+                    <span class="body">' + movie.original_language + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Runtime: </span>\
+                    <span class="body">' + movie.runtime + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Overview: </span>\
+                    <span class="body">' + movie.overview + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Homepage: </span>\
+                    <span class="body">' + movie.homepage + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Genres: </span>\
+                </section>'
+            );
+
+            $.each(movie.genres, function (index1, genre) {
+                console.log(genre.name)
+                $(movieInfo).append(
+                    '<span class="body">' + genre.name + ', ' + '</span>'
+                );
+            });
+
+            $(movieInfo).append(
+                '<section>\
+                    <span class="tag">Production Companies: </span>\
+                </section>'
+            );
+
+            $.each(movie.production_companies, function (index1, production_companies) {
+                console.log(production_companies.name)
+                $(movieInfo).append(
+                    '<span class="body">' + production_companies.name + ', ' + '</span>'
+                );
+            });
+
+
+            movieInfo.appendTo($("#movieInfoContent")); // Add to the DOM element
+        })
+        .fail(function (data) {
+            showError(data.status.toString());
+        });
+
+        const URLMovieInfo2 = 'https://api.themoviedb.org/3/movie/' + movieId +
+            '/credits?api_key=' + tmdbAPIKey;
+        $.ajax({
+            url: URLMovieInfo2,
+            type: "GET"
+        })
+        .done(function (movieCredits) {
+            console.log("movieCredits", movieCredits);
+            // TODO: add error for no matches
+
+            const movieInfo2 = $("<article />", {
+                "class": "movieInfo",
+            });
+
+            $(movieInfo2).append(
+                '<section>\
+                    <span class="tag">List of actors: </span>\
+                </section>'
+            );
+            $.each(movieCredits.cast, function (index1, cast) {
+                $(movieInfo2).append(
+                    '<span class="body">' + cast.name + ' as ' + cast.character + '</span>'
+                );
+            });
+
+            movieInfo2.appendTo($("#movieInfoContent")); // Add to the DOM element
+        })
+        .fail(function (data) {
+            showError(data.status.toString());
+        });
     }
 
     function showPersonInfo(id) {
