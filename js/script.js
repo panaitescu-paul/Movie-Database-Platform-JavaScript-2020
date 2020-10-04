@@ -208,6 +208,9 @@ $(document).ready(function() {
     function showMovieInfo(id) {
         console.log("showMovieInfo");
         console.log("id", id);
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
     }
 
     function showPersonInfo(id) {
