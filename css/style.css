@@ -14,7 +14,7 @@
     text-align: center;
 }
 
-#search-area {
+#searchArea {
     border: 1px solid #107df5;
     padding: 20px;
     border-radius: 5px;
@@ -24,4 +24,20 @@
 .search-example {
     color: #ccc;
     float: right;
+}
+
+
+/* Movie Search Result*/
+
+article {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #b3bfca;
+    border-radius: 5px;
+}
+
+article:hover {
+    border: 1px solid #107df5;
+    background-color: rgba(16, 125, 245, 0.1);
+    cursor: pointer;
 }
