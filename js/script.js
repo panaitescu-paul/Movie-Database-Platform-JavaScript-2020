@@ -316,11 +316,79 @@ $(document).ready(function() {
                 );
             });
 
+            $(movieInfo2).append(
+                '<section>\
+                    <span class="tag">List of Directors: </span>\
+                </section>'
+            );
+
+            $.each(movieCredits.crew, function (index1, crew) {
+                if (crew.job == 'Director')
+                $(movieInfo2).append(
+                    '<span class="body">' + crew.name + '</span>'
+                );
+            });
+            $(movieInfo2).append(
+                '<section>\
+                    <span class="tag">List of Script Writers: </span>\
+                </section>'
+            );
+
+            $.each(movieCredits.crew, function (index1, crew) {
+                if (crew.job == 'Writer')
+                    $(movieInfo2).append(
+                        '<span class="body">' + crew.name + '</span>'
+                    );
+            });
+
+            $(movieInfo2).append(
+                '<section>\
+                    <span class="tag">List of Executive Producers: </span>\
+                </section>'
+            );
+
+            $.each(movieCredits.crew, function (index1, crew) {
+                if (crew.job == 'Executive Producer')
+                    $(movieInfo2).append(
+                        '<span class="body">' + crew.name + '</span>'
+                    );
+            });
+
+            $(movieInfo2).append(
+                '<section>\
+                    <span class="tag">List of Producers: </span>\
+                </section>'
+            );
+
+            $.each(movieCredits.crew, function (index1, crew) {
+                if (crew.job == 'Producer')
+                    $(movieInfo2).append(
+                        '<span class="body">' + crew.name + '</span>'
+                    );
+            });
+
+            $(movieInfo2).append(
+                '<section>\
+                    <span class="tag">List of Music Composers: </span>\
+                </section>'
+            );
+
+            $.each(movieCredits.crew, function (index1, crew) {
+                if (crew.job == 'Music')
+                    $(movieInfo2).append(
+                        '<span class="body">' + crew.name + '</span>'
+                    );
+            });
+
+
+
             movieInfo2.appendTo($("#movieInfoContent")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
         });
+
+
     }
 
     function showPersonInfo(id) {
