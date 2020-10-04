@@ -57,6 +57,7 @@ $(document).ready(function() {
                 console.log("data title", data.results[0].title);
                 $.each(data.results, function (index1, movie) {
                     const movieItem = $("<article />", {
+                        "class": "movie",
                         "id": movie.id,
                         "data-toggle": "modal",
                         "data-target": "#modalMovieInfo"
@@ -110,6 +111,7 @@ $(document).ready(function() {
                     if (movieYear == movie.release_date.substring(0,4)) { //check if the Searched Movie has the same Year with the release date
                         movieFound = true;
                         const movieItem = $("<article />", {
+                            "class": "movie",
                             "id": movie.id
                         });
                         $("<section />", {
@@ -166,6 +168,7 @@ $(document).ready(function() {
                     $.each(data.results, function (index1, person) {
                         console.log(searchInput);
                         const personItem = $("<article />", {
+                            "class": "movie",
                             "id": person.id
                         });
                         $("<section />", {
@@ -210,9 +213,58 @@ $(document).ready(function() {
     function showMovieInfo(id) {
         console.log("showMovieInfo");
         console.log("id", id);
-        $('#modalMovieInfo').on('shown.bs.modal', function () {
-            // $('#modalMovieInfo').trigger('focus')
+
+        const movieId = id;
+        const URLMovieInfo = 'https://api.themoviedb.org/3/movie/' + movieId +
+                             '?api_key=' + tmdbAPIKey + '&language=en-US';
+        $.ajax({
+            url: URLMovieInfo,
+            type: "GET"
         })
+            .done(function (movie) {
+                console.log("movie", movie);
+                // TODO: add error for no matches
+                const movieInfo = $("<article />", {
+                    "class": "movieInfo",
+                    "id": movie.id
+                });
+
+                $(movieInfo).html(
+                    '<section>\
+                        <span class="tag">Title: </span>\
+                        <span class="body">' + movie.original_title + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Release Date: </span>\
+                        <span class="body">' + movie.release_date + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Original Language: </span>\
+                        <span class="body">' + movie.original_language + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Runtime: </span>\
+                        <span class="body">' + movie.runtime + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Overview: </span>\
+                        <span class="body">' + movie.overview + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Homepage: </span>\
+                        <span class="body">' + movie.homepage + '</span>\
+                    </section>'
+                );
+
+                // movieInfo.on("click", function() {
+                //     showPersonInfo(person.id);
+                // });
+
+                movieInfo.appendTo($("#movieInfoContent")); // Add to the DOM element
+            })
+            .fail(function (data) {
+                showError(data.status.toString());
+            });
     }
 
     function showPersonInfo(id) {
