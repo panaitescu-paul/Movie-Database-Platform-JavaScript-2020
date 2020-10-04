@@ -50,11 +50,13 @@ article.movie:hover {
     cursor: pointer;
 }
 
-.movieInfo section {
+.movieInfo section,
+.personInfo section {
     /*padding-bottom: 10px;*/
 }
 
-.movieInfo .tag {
+.movieInfo .tag,
+.personInfo .tag {
     border: 1px solid #107df5;
     border-radius: 5px;
     background-color: rgba(16, 125, 245, 0.1);
@@ -63,7 +65,8 @@ article.movie:hover {
     line-height: 37px;
 }
 
-.movieInfo .body {
+.movieInfo .body,
+.personInfo .body {
     border: 1px solid #f55110;
     border-radius: 5px;
     background-color: rgba(245, 81, 16, 0.2);

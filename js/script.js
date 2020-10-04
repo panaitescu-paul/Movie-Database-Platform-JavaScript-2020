@@ -220,6 +220,7 @@ $(document).ready(function() {
 
         // Empty the previous Results
         $("#modalInfoContent").empty();
+        $("#modalTitle").html("Movie Information");
         // $("#searchResult").show();
         // $("#errorMessage").hide();
 
@@ -397,6 +398,7 @@ $(document).ready(function() {
 
         // Empty the previous Results
         $("#modalInfoContent").empty();
+        $("#modalTitle").html("Person Information");
 
         const personId = id;
         const URLPersonInfo = 'https://api.themoviedb.org/3/person/' + personId +
@@ -415,56 +417,57 @@ $(document).ready(function() {
 
             $(personInfo).append(
                 '<section>\
-                    <span class="tag">Title: </span>\
-                    <span class="body">' + person.original_title + '</span>\
-            </section>\
-            <section>\
-                <span class="tag">Release Date: </span>\
-                <span class="body">' + person.release_date + '</span>\
-            </section>\
-            <section>\
-                <span class="tag">Original Language: </span>\
-                <span class="body">' + person.original_language + '</span>\
-            </section>\
-            <section>\
-                <span class="tag">Runtime: </span>\
-                <span class="body">' + person.runtime + '</span>\
-            </section>\
-            <section>\
-                <span class="tag">Overview: </span>\
-                <span class="body">' + person.overview + '</span>\
-            </section>\
-            <section>\
-                <span class="tag">Homepage: </span>\
-                <span class="body">' + person.homepage + '</span>\
-            </section>\
-            <section>\
-                <span class="tag">Genres: </span>\
-            </section>'
-            );
-
-            $.each(person.genres, function (index1, genre) {
-                console.log(genre.name)
-                $(personInfo).append(
-                    '<span class="body">' + genre.name + ', ' + '</span>'
-                );
-            });
-
-            $(personInfo).append(
-                '<section>\
-                    <span class="tag">Production Companies: </span>\
+                    <span class="tag">Name: </span>\
+                    <span class="body">' + person.name + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Main Activity: </span>\
+                    <span class="body">' + person.known_for_department + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Birthday: </span>\
+                    <span class="body">' + person.birthday + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Birthplace: </span>\
+                    <span class="body">' + person.place_of_birth + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">biography: </span>\
+                    <span class="body">' + person.biography + '</span>\
+                </section>\
+                <section>\
+                    <span class="tag">Link to Website: </span>\
+                    <span class="body">' + person.homepage + '</span>\
                 </section>'
-            );
-
-            $.each(person.production_companies, function (index1, production_companies) {
-                console.log(production_companies.name)
-                $(personInfo).append(
-                    '<span class="body">' + production_companies.name + ', ' + '</span>'
                 );
-            });
+
+            if (person.deathday !== null) {
+                $(personInfo).append(
+                    '<section>\
+                        <span class="tag">Day of decease: </span>\
+                        <span class="body">' + person.deathday + '</span>\
+                </section>'
+                );
+            }
+
+            // $.each(person.genres, function (index1, genre) {
+            //     console.log(genre.name)
+            //     $(personInfo).append(
+            //         '<span class="body">' + genre.name + ', ' + '</span>'
+            //     );
+            // });
+            //
+            //
+            // $.each(person.production_companies, function (index1, production_companies) {
+            //     console.log(production_companies.name)
+            //     $(personInfo).append(
+            //         '<span class="body">' + production_companies.name + ', ' + '</span>'
+            //     );
+            // });
 
 
-            personInfo.appendTo($("#personInfoContent")); // Add to the DOM element
+            personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
