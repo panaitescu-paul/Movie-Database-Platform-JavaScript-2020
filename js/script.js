@@ -57,7 +57,9 @@ $(document).ready(function() {
                 console.log("data title", data.results[0].title);
                 $.each(data.results, function (index1, movie) {
                     const movieItem = $("<article />", {
-                        "id": movie.id
+                        "id": movie.id,
+                        "data-toggle": "modal",
+                        "data-target": "#modalMovieInfo"
                     });
                     $("<section />", {
                         "text": "Title: " + movie.title
@@ -208,8 +210,8 @@ $(document).ready(function() {
     function showMovieInfo(id) {
         console.log("showMovieInfo");
         console.log("id", id);
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
+        $('#modalMovieInfo').on('shown.bs.modal', function () {
+            // $('#modalMovieInfo').trigger('focus')
         })
     }
 
