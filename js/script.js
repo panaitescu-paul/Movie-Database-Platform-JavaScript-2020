@@ -60,7 +60,7 @@ $(document).ready(function() {
                         "class": "movie",
                         "id": movie.id,
                         "data-toggle": "modal",
-                        "data-target": "#modalMovieInfo"
+                        "data-target": "#modal"
                     });
                     $("<section />", {
                         "text": "Title: " + movie.title
@@ -112,7 +112,9 @@ $(document).ready(function() {
                         movieFound = true;
                         const movieItem = $("<article />", {
                             "class": "movie",
-                            "id": movie.id
+                            "id": movie.id,
+                            "data-toggle": "modal",
+                            "data-target": "#modal"
                         });
                         $("<section />", {
                             "text": "Title: " + movie.title
@@ -169,7 +171,9 @@ $(document).ready(function() {
                         console.log(searchInput);
                         const personItem = $("<article />", {
                             "class": "movie",
-                            "id": person.id
+                            "id": person.id,
+                            "data-toggle": "modal",
+                            "data-target": "#modal"
                         });
                         $("<section />", {
                             "text": "Name: " + person.name
@@ -215,7 +219,7 @@ $(document).ready(function() {
         console.log("id", id);
 
         // Empty the previous Results
-        $("#movieInfoContent").empty();
+        $("#modalInfoContent").empty();
         // $("#searchResult").show();
         // $("#errorMessage").hide();
 
@@ -285,7 +289,7 @@ $(document).ready(function() {
             });
 
 
-            movieInfo.appendTo($("#movieInfoContent")); // Add to the DOM element
+            movieInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
@@ -380,20 +384,91 @@ $(document).ready(function() {
                     );
             });
 
-
-
-            movieInfo2.appendTo($("#movieInfoContent")); // Add to the DOM element
+            movieInfo2.appendTo($("#modalInfoContent")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
         });
-
-
     }
 
     function showPersonInfo(id) {
         console.log("showPersonInfo");
         console.log("id", id);
+
+        // Empty the previous Results
+        $("#modalInfoContent").empty();
+
+        const personId = id;
+        const URLPersonInfo = 'https://api.themoviedb.org/3/person/' + personId +
+            '?api_key=' + tmdbAPIKey + '&language=en-US';
+        $.ajax({
+            url: URLPersonInfo,
+            type: "GET"
+        })
+        .done(function (person) {
+            console.log("movie", person);
+            // TODO: add error for no matches
+            const personInfo = $("<article />", {
+                "class": "personInfo",
+                "id": person.id
+            });
+
+            $(personInfo).append(
+                '<section>\
+                    <span class="tag">Title: </span>\
+                    <span class="body">' + person.original_title + '</span>\
+            </section>\
+            <section>\
+                <span class="tag">Release Date: </span>\
+                <span class="body">' + person.release_date + '</span>\
+            </section>\
+            <section>\
+                <span class="tag">Original Language: </span>\
+                <span class="body">' + person.original_language + '</span>\
+            </section>\
+            <section>\
+                <span class="tag">Runtime: </span>\
+                <span class="body">' + person.runtime + '</span>\
+            </section>\
+            <section>\
+                <span class="tag">Overview: </span>\
+                <span class="body">' + person.overview + '</span>\
+            </section>\
+            <section>\
+                <span class="tag">Homepage: </span>\
+                <span class="body">' + person.homepage + '</span>\
+            </section>\
+            <section>\
+                <span class="tag">Genres: </span>\
+            </section>'
+            );
+
+            $.each(person.genres, function (index1, genre) {
+                console.log(genre.name)
+                $(personInfo).append(
+                    '<span class="body">' + genre.name + ', ' + '</span>'
+                );
+            });
+
+            $(personInfo).append(
+                '<section>\
+                    <span class="tag">Production Companies: </span>\
+                </section>'
+            );
+
+            $.each(person.production_companies, function (index1, production_companies) {
+                console.log(production_companies.name)
+                $(personInfo).append(
+                    '<span class="body">' + production_companies.name + ', ' + '</span>'
+                );
+            });
+
+
+            personInfo.appendTo($("#personInfoContent")); // Add to the DOM element
+        })
+        .fail(function (data) {
+            showError(data.status.toString());
+        });
     }
 
 });
