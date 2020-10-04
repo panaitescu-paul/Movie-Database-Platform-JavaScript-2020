@@ -17,8 +17,24 @@
 <body>
 
     <div class="container">
+        <h1 class="main-title">The Movie DB</h1>
         <div class="search-area">
-
+            <p class="title">Search by:</p>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="customRadio1">Movie Title</label>
+                <span class="search-example">(Exp: Django Unchained)</span>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="customRadio2">Movie Title and Release Year</label>
+                <span class="search-example">(Exp: Django Unchained (2012))</span>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="customRadio3">Person Name</label>
+                <span class="search-example">(Exp: Christoph Waltz)</span>
+            </div>
         </div>
 
         <div class="results">

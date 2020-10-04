@@ -1,1 +1,23 @@
 
+
+
+.container {
+    width: 550px;
+    margin-top: 30px;
+    border: 2px solid #bfd0e2;
+}
+
+.main-title {
+    font-family: "Times New Roman";
+    font-size: 4rem;
+    text-align: center;
+}
+
+.search-area {
+    border: 1px solid #ccc;
+}
+
+.search-example {
+    color: #ccc;
+    float: right;
+}
