@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    // $("#movie-search-result").hide();
-    // $("#person-search-result").hide();
-    // $("#movie-info").hide();
-    // $("#movie-info").hide();
     $("#errorMessage").hide();
     console.log("test", 1);
 
@@ -42,10 +38,6 @@ $(document).ready(function() {
         function getMoviesByName() {
             const URLMovies = 'https://api.themoviedb.org/3/search/movie?api_key=' + tmdbAPIKey +
                 '&language=en-US&query=' + searchInput + '&page=1&include_adult=false';
-            const URLpeople = 'https://api.themoviedb.org/3/search/movie?api_key=' + tmdbAPIKey +
-                '&language=en-US&query=' + searchInput + '&page=1&include_adult=false';
-
-            // $("$errorMessage").hide();
 
             $.ajax({
                 url: URLMovies,
@@ -77,10 +69,8 @@ $(document).ready(function() {
                     movieItem.on("click", function() {
                         showMovieInfo(movie.id);
                     });
-
                     movieItem.appendTo($("#searchResult")); // Add to the DOM element
                 });
-
             })
             .fail(function (data) {
                 showError(data.status.toString());
@@ -131,7 +121,6 @@ $(document).ready(function() {
                         movieItem.on("click", function() {
                             showMovieInfo(movie.id);
                         });
-
                         movieItem.appendTo($("#searchResult")); // Add to the DOM element
                     }
                 });
@@ -142,7 +131,6 @@ $(document).ready(function() {
             .fail(function (data) {
                 showError(data.status.toString());
             });
-
         }
 
         // Option 3: Search People Name
@@ -153,7 +141,6 @@ $(document).ready(function() {
             if($("#exampleRadios1").checked) {
                 console.log("checked true", $("#exampleRadios1").val());
             }
-
             const personName = searchInput;
             console.log("personName", personName);
 
@@ -163,36 +150,36 @@ $(document).ready(function() {
                 url: URLPerson,
                 type: "GET"
             })
-                .done(function (data) {
-                    console.log("data", data);
-                    console.log("data name", data.results[0].name);
-                    // TODO: add error for no matches
-                    $.each(data.results, function (index1, person) {
-                        console.log(searchInput);
-                        const personItem = $("<article />", {
-                            "class": "movie",
-                            "id": person.id,
-                            "data-toggle": "modal",
-                            "data-target": "#modal"
-                        });
-                        $("<section />", {
-                            "text": "Name: " + person.name
-                        }).appendTo(personItem);
-
-                        $("<section />", {
-                            "text": "Main Activity: " + person.known_for_department
-                        }).appendTo(personItem);
-
-                        personItem.on("click", function() {
-                            showPersonInfo(person.id);
-                        });
-
-                        personItem.appendTo($("#searchResult")); // Add to the DOM element
+            .done(function (data) {
+                console.log("data", data);
+                console.log("data name", data.results[0].name);
+                // TODO: add error for no matches
+                $.each(data.results, function (index1, person) {
+                    console.log(searchInput);
+                    const personItem = $("<article />", {
+                        "class": "movie",
+                        "id": person.id,
+                        "data-toggle": "modal",
+                        "data-target": "#modal"
                     });
-                })
-                .fail(function (data) {
-                    showError(data.status.toString());
+                    $("<section />", {
+                        "text": "Name: " + person.name
+                    }).appendTo(personItem);
+
+                    $("<section />", {
+                        "text": "Main Activity: " + person.known_for_department
+                    }).appendTo(personItem);
+
+                    personItem.on("click", function() {
+                        showPersonInfo(person.id);
+                    });
+
+                    personItem.appendTo($("#searchResult")); // Add to the DOM element
                 });
+            })
+            .fail(function (data) {
+                showError(data.status.toString());
+            });
         }
 
     });
@@ -221,8 +208,6 @@ $(document).ready(function() {
         // Empty the previous Results
         $("#modalInfoContent").empty();
         $("#modalTitle").html("Movie Information");
-        // $("#searchResult").show();
-        // $("#errorMessage").hide();
 
         const movieId = id;
         const URLMovieInfo = 'https://api.themoviedb.org/3/movie/' + movieId +
@@ -289,7 +274,6 @@ $(document).ready(function() {
                 );
             });
 
-
             movieInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
         })
         .fail(function (data) {
@@ -298,6 +282,7 @@ $(document).ready(function() {
 
         const URLMovieInfo2 = 'https://api.themoviedb.org/3/movie/' + movieId +
             '/credits?api_key=' + tmdbAPIKey;
+
         $.ajax({
             url: URLMovieInfo2,
             type: "GET"
@@ -333,6 +318,7 @@ $(document).ready(function() {
                     '<span class="body">' + crew.name + '</span>'
                 );
             });
+
             $(movieInfo2).append(
                 '<section>\
                     <span class="tag">List of Script Writers: </span>\
@@ -451,8 +437,6 @@ $(document).ready(function() {
                 );
             }
 
-
-
             personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
         })
         .fail(function (data) {
@@ -472,7 +456,6 @@ $(document).ready(function() {
                 "class": "personInfo",
                 "id": personId
             });
-
 
             $(personInfo).append(
                 '<section>\
@@ -496,11 +479,10 @@ $(document).ready(function() {
 
             $.each(credits.crew, function (index1, crew) {
                 console.log("---- crew.title", crew.title)
-                if (crew.job) {
-                    $(personInfo).append(
-                        '<section>\
-                            <span class="tag">Title: </span>\
-                            <span class="body">' + crew.original_title + '</span>\
+                $(personInfo).append(
+                    '<section>\
+                        <span class="tag">Title: </span>\
+                        <span class="body">' + crew.original_title + '</span>\
                     </section>\
                     <section>\
                         <span class="tag">Release Year: </span>\
@@ -511,7 +493,6 @@ $(document).ready(function() {
                         <span class="body">' + crew.job + '</span>\
                     </section>'
                     );
-                }
             });
             personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
 
@@ -520,5 +501,4 @@ $(document).ready(function() {
             showError(data.status.toString());
         });
     }
-
 });

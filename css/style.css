@@ -1,6 +1,3 @@
-
-
-
 .container {
     width: 550px;
     margin-top: 30px;
@@ -26,15 +23,6 @@
     float: right;
 }
 
-/*.btnSearch {*/
-/*    width: 100%;*/
-/*    display: block;*/
-/*}*/
-
-/*#errorMessage {*/
-/*    display: none;*/
-/*}*/
-
 /* Movie Search Result*/
 
 article.movie {
@@ -52,7 +40,6 @@ article.movie:hover {
 
 .movieInfo section,
 .personInfo section {
-    /*padding-bottom: 10px;*/
 }
 
 .movieInfo .tag,
