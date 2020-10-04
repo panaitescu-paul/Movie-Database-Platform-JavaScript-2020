@@ -7,8 +7,11 @@ $(document).ready(function() {
 
     // "Search" button clicked
     $("#btnSearch").click(function () {
-        const searchInput = $("#searchInput").val().trim();
-        console.log("#searchInput", searchInput);
+        const searchInput = $("#searchInput").val();
+        console.log("searchInput", searchInput);
+
+        // Empty the Search Result
+        $("#searchResult").empty();
 
         if (searchInput == "") {
             showError("empty");
