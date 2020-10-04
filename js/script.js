@@ -412,7 +412,7 @@ $(document).ready(function() {
             // TODO: add error for no matches
             const personInfo = $("<article />", {
                 "class": "personInfo",
-                "id": person.id
+                "id": personId
             });
 
             $(personInfo).append(
@@ -433,7 +433,7 @@ $(document).ready(function() {
                     <span class="body">' + person.place_of_birth + '</span>\
                 </section>\
                 <section>\
-                    <span class="tag">biography: </span>\
+                    <span class="tag">Biography: </span>\
                     <span class="body">' + person.biography + '</span>\
                 </section>\
                 <section>\
@@ -447,27 +447,74 @@ $(document).ready(function() {
                     '<section>\
                         <span class="tag">Day of decease: </span>\
                         <span class="body">' + person.deathday + '</span>\
-                </section>'
+                    </section>'
                 );
             }
 
-            // $.each(person.genres, function (index1, genre) {
-            //     console.log(genre.name)
-            //     $(personInfo).append(
-            //         '<span class="body">' + genre.name + ', ' + '</span>'
-            //     );
-            // });
-            //
-            //
-            // $.each(person.production_companies, function (index1, production_companies) {
-            //     console.log(production_companies.name)
-            //     $(personInfo).append(
-            //         '<span class="body">' + production_companies.name + ', ' + '</span>'
-            //     );
-            // });
 
 
             personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
+        })
+        .fail(function (data) {
+            showError(data.status.toString());
+        });
+
+        const URLPersonInfo2 = 'https://api.themoviedb.org/3/person/' + personId +
+            '/movie_credits?api_key=' + tmdbAPIKey + '&language=en-US';
+        $.ajax({
+            url: URLPersonInfo2,
+            type: "GET"
+        })
+        .done(function (credits) {
+            console.log("movie", credits);
+            // TODO: add error for no matches
+            const personInfo = $("<article />", {
+                "class": "personInfo",
+                "id": personId
+            });
+
+
+            $(personInfo).append(
+                '<section>\
+                    <span class="tag">List of movies: </span>\
+                </section>'
+            );
+
+            $.each(credits.cast, function (index1, cast) {
+                console.log("---- cast.title", cast.title)
+                $(personInfo).append(
+                    '<section>\
+                        <span class="tag">Title: </span>\
+                        <span class="body">' + cast.title + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Release Year: </span>\
+                        <span class="body">' + cast.release_date.substring(0,4) + '</span>\
+                    </section>'
+                );
+            });
+
+            $.each(credits.crew, function (index1, crew) {
+                console.log("---- crew.title", crew.title)
+                if (crew.job) {
+                    $(personInfo).append(
+                        '<section>\
+                            <span class="tag">Title: </span>\
+                            <span class="body">' + crew.original_title + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Release Year: </span>\
+                        <span class="body">' + crew.release_date.substring(0,4) + '</span>\
+                    </section>\
+                    <section>\
+                        <span class="tag">Role: </span>\
+                        <span class="body">' + crew.job + '</span>\
+                    </section>'
+                    );
+                }
+            });
+            personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
+
         })
         .fail(function (data) {
             showError(data.status.toString());
