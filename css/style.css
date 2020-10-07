@@ -9,6 +9,9 @@
     font-family: "Times New Roman", Times, serif;
     font-size: 4rem;
     text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: 500;
 }
 
 #searchArea {
@@ -18,13 +21,17 @@
     margin-bottom: 20px;
 }
 
+#btnSearch {
+    text-align: center;
+    width: 100%;
+}
+
 .search-example {
     color: #ccc;
     float: right;
 }
 
-/* Movie Search Result*/
-
+/* Movie Search Result */
 article.movie {
     margin: 10px;
     padding: 10px;
@@ -38,12 +45,21 @@ article.movie:hover {
     cursor: pointer;
 }
 
-.movieInfo section,
-.personInfo section {
+/* Modal */
+#modalTitle {
+    font-size: 2rem;
+    text-align: center;
+    margin-left: 20px;
+    font-weight: 600;
+}
+
+.modal-body {
+    margin: 20px;
 }
 
 .movieInfo .tag,
 .personInfo .tag {
+    font-weight: 700;
     border: 1px solid #107df5;
     border-radius: 5px;
     background-color: rgba(16, 125, 245, 0.1);
@@ -52,11 +68,105 @@ article.movie:hover {
     line-height: 37px;
 }
 
-.movieInfo .body,
-.personInfo .body {
-    border: 1px solid #f55110;
-    border-radius: 5px;
-    background-color: rgba(245, 81, 16, 0.2);
-    padding: 5px;
-    line-height: 29px;
+.img-actor-small {
+    width: 40px;
+    height: 60px;
+}
+
+/* Modal - Table */
+
+.table-actor-list {
+    margin: 30px 20px;
+    width: auto;
+}
+
+.table-actor-list td{
+    padding: 7px;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(234, 236, 239, 1);
+}
+
+tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+tr {
+    border: 1px solid rgba(16, 125, 245, 0.0);
+}
+
+tr:hover {
+    border: 1px solid #107df5;
+    background-color: rgba(16, 125, 245, 0.1);
+    cursor: pointer;
+}
+
+thead tr{
+    background-color: rgba(2, 123, 255, 1) !important;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Clearfix the Floats */
+
+.clearfix {
+    overflow: auto;
+}
+
+
+/* Movie Results */
+.movie-item-img {
+    float: left;
+    border: 1px solid rgba(122, 141, 165, 0.5);
+}
+
+.movie-item-details {
+    margin-left: 130px;
+    margin-top: 30px;
+}
+
+.movie-item-details p {
+    margin: 0;
+}
+
+.movie-item-details p .title {
+    font-weight: 700;
+}
+
+.movie-item-details p .desc {
+}
+
+/* Responsivity */
+@media only screen and (max-width: 600px) {
+    body {
+        background-color: rgba(106, 154, 215, 0.1);
+    }
+
+    .container {
+        width: 400px;
+    }
+
+    #searchInput {
+        width: 100%;
+    }
+
+    .main-title {
+        font-size: 3rem;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    body {
+        background-color: rgba(106, 154, 215, 0.0);
+    }
+
+    .container {
+        width: 320px;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+    }
 }

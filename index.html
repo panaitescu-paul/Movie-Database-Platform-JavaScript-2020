@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <title>The Movie DB - Paul Panaitescu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--  CSS  -->
+    <!--  CSS -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!--  JS  -->
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
-    <!--  Favicon  -->
-    <!--    <link rel="icon" href="img/kea_icon.jpg" type="image/ico">-->
 </head>
-<body>
 
+<body>
     <div class="container">
         <h1 class="main-title">The Movie DB</h1>
         <div id="searchArea">
@@ -24,21 +21,18 @@
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="menu" id="exampleRadios1" value="option1" checked>
                     <label class="form-check-label" for="exampleRadios1">Movie Title</label>
-                    <span class="search-example">(Exp: Django Unchained)</span>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="menu" id="exampleRadios2" value="option2">
                     <label class="form-check-label" for="exampleRadios2">Movie Title and Release Year</label>
-                    <span class="search-example">(Exp: Django Unchained (2012))</span>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="menu" id="exampleRadios3" value="option3">
                     <label class="form-check-label" for="exampleRadios3">Person Name</label>
-                    <span class="search-example">(Exp: Christoph Waltz)</span>
                 </div>
                 <div class="form-group">
-                    <label for="searchInput">Search by:</label>
-                    <input type="text" class="form-control" id="searchInput" placeholder="Enter Movie / Person name">
+                    <label for="searchInput"></label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Enter Movie or Person Name">
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-primary mb-2" id="btnSearch">Search</button>
@@ -47,17 +41,17 @@
             </form>
         </div>
 
+        <!-- Search Results Area-->
         <div class="results">
             <div id="searchResult">
             </div>
         </div>
 
+        <!-- Modal-->
         <div class="modals">
             <div id="movieInfo">
-                <!-- Modal -->
                 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<!--                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">-->
-                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalTitle">Information</h5>
@@ -65,9 +59,12 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <div id="modalInfoContent">
 
+                            <!-- Movie and Person Information will be added here-->
+                            <div class="modal-body">
+                                <div id="modalInfoContent1">
+                                </div>
+                                <div id="modalInfoContent2">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -82,6 +79,7 @@
 
 </body>
 
+<!-- JS Scripts -->
 <script src="js/keys.js"></script>
 <script src="js/script.js"></script>
 </html>

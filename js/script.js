@@ -1,13 +1,12 @@
 $(document).ready(function() {
     $("#errorMessage").hide();
-    console.log("test", 1);
 
     // "Search" button clicked
     $("#btnSearch").click(function () {
         const searchInput = $("#searchInput").val();
         console.log("searchInput", searchInput);
 
-        // Empty the Search Result
+        // Empty previous Search Results
         $("#searchResult").empty();
         $("#searchResult").show();
         $("#errorMessage").hide();
@@ -17,6 +16,7 @@ $(document).ready(function() {
             return;
         }
 
+        // Find out which radio button is checked
         const radioBtns = $("input[name=\"menu\"]");
         let selectedOption;
         for (const radioBtn of radioBtns) {
@@ -25,6 +25,7 @@ $(document).ready(function() {
                 break;
             }
         }
+
         if (selectedOption == "option1") {
             getMoviesByName();
         } else if (selectedOption == "option2") {
@@ -32,7 +33,6 @@ $(document).ready(function() {
         } else if (selectedOption == "option3") {
             getPeopleByName();
         }
-
 
         // Option 1: Search for Movie Title
         function getMoviesByName() {
@@ -44,27 +44,46 @@ $(document).ready(function() {
                 type: "GET"
             })
             .done(function (data) {
-                console.log("data", data);
-                // TODO: add error for no matches
-                console.log("data title", data.results[0].title);
                 $.each(data.results, function (index1, movie) {
                     const movieItem = $("<article />", {
-                        "class": "movie",
+                        "class": "movie clearfix",
                         "id": movie.id,
                         "data-toggle": "modal",
-                        "data-target": "#modal"
+                        "data-target": "#modal",
                     });
-                    $("<section />", {
-                        "text": "Title: " + movie.title
-                    }).appendTo(movieItem);
 
-                    $("<section />", {
-                        "text": "Release Year: " + movie.release_date.substring(0,4)
-                    }).appendTo(movieItem);
+                    const movieItemImg = $("<div />", {
+                        "class": "movie-item-img",
+                        "float": "right",
+                    });
 
-                    $("<section />", {
-                        "text": "Language: " + movie.original_language
-                    }).appendTo(movieItem);
+                    const movieItemDetails = $("<div />", {
+                        "class": "movie-item-details",
+                    });
+                    movieItemImg.appendTo(movieItem);
+                    movieItemDetails.appendTo(movieItem);
+
+                    $("<img>", {
+                        "src": "https://image.tmdb.org/t/p/w200" + movie.poster_path,
+                        "width": "100px",
+                        "height": "150px",
+                        "onerror": "this.src='img/img_not_found.png'",
+                    }).appendTo(movieItemImg);
+
+                    $(movieItemDetails).append(
+                        '<p>\
+                            <span class="title">Title: </span>\
+                            <span class="desc">' + movie.title + '</span>\
+                        </p>\
+                        <p>\
+                            <span class="title">Release Year: </span>\
+                            <span class="desc">' + movie.release_date.substring(0,4) + '</span>\
+                        </p>\
+                        <p>\
+                            <span class="title">Language: </span>\
+                            <span class="desc">' + movie.original_language + '</span>\
+                        </p>'
+                    );
 
                     movieItem.on("click", function() {
                         showMovieInfo(movie.id);
@@ -77,8 +96,8 @@ $(document).ready(function() {
             });
         }
 
+        // Option 2: Search for Movie Title and Year
         function getMoviesByNameAndYear() {
-            // Option 2: Search for Movie Title and Year
             let movieName = searchInput.slice(0, -5);
             let movieYear = searchInput.slice(-4);
             let movieFound = false;
@@ -93,30 +112,47 @@ $(document).ready(function() {
                 type: "GET"
             })
             .done(function (data) {
-                console.log("data", data);
-                console.log("data title", data.results[0].title);
-                // TODO: add error for no matches
                 $.each(data.results, function (index1, movie) {
-                    console.log(searchInput.substring(-4));
                     if (movieYear == movie.release_date.substring(0,4)) { //check if the Searched Movie has the same Year with the release date
                         movieFound = true;
                         const movieItem = $("<article />", {
-                            "class": "movie",
+                            "class": "movie clearfix",
                             "id": movie.id,
                             "data-toggle": "modal",
                             "data-target": "#modal"
                         });
-                        $("<section />", {
-                            "text": "Title: " + movie.title
-                        }).appendTo(movieItem);
 
-                        $("<section />", {
-                            "text": "Release Year: " + movie.release_date.substring(0,4)
-                        }).appendTo(movieItem);
+                        const movieItemImg = $("<div />", {
+                            "class": "movie-item-img",
+                            "float": "right",
+                        });
+                        const movieItemDetails = $("<div />", {
+                            "class": "movie-item-details",
+                        });
+                        movieItemImg.appendTo(movieItem);
+                        movieItemDetails.appendTo(movieItem);
 
-                        $("<section />", {
-                            "text": "Language: " + movie.original_language
-                        }).appendTo(movieItem);
+                        $("<img>", {
+                            "src": "https://image.tmdb.org/t/p/w200" + movie.poster_path,
+                            "width": "100px",
+                            "height": "150px",
+                            "onerror": "this.src='img/img_not_found.png'",
+                        }).appendTo(movieItemImg);
+
+                        $(movieItemDetails).append(
+                            '<p>\
+                                <span class="title">Title: </span>\
+                                <span class="desc">' + movie.title + '</span>\
+                            </p>\
+                            <p>\
+                                <span class="title">Release Year: </span>\
+                                <span class="desc">' + movie.release_date.substring(0,4) + '</span>\
+                            </p>\
+                            <p>\
+                                <span class="title">Language: </span>\
+                                <span class="desc">' + movie.original_language + '</span>\
+                            </p>'
+                        );
 
                         movieItem.on("click", function() {
                             showMovieInfo(movie.id);
@@ -135,12 +171,6 @@ $(document).ready(function() {
 
         // Option 3: Search People Name
         function getPeopleByName() {
-            console.log("exampleRadios1 ", $("#exampleRadios1:checked"));
-            console.log("exampleRadios2 ", $("#exampleRadios2:checked"));
-            console.log("exampleRadios3 ", $("#exampleRadios3:checked"));
-            if($("#exampleRadios1").checked) {
-                console.log("checked true", $("#exampleRadios1").val());
-            }
             const personName = searchInput;
             console.log("personName", personName);
 
@@ -151,24 +181,42 @@ $(document).ready(function() {
                 type: "GET"
             })
             .done(function (data) {
-                console.log("data", data);
-                console.log("data name", data.results[0].name);
                 // TODO: add error for no matches
                 $.each(data.results, function (index1, person) {
-                    console.log(searchInput);
                     const personItem = $("<article />", {
-                        "class": "movie",
+                        "class": "movie clearfix",
                         "id": person.id,
                         "data-toggle": "modal",
                         "data-target": "#modal"
                     });
-                    $("<section />", {
-                        "text": "Name: " + person.name
-                    }).appendTo(personItem);
 
-                    $("<section />", {
-                        "text": "Main Activity: " + person.known_for_department
-                    }).appendTo(personItem);
+                    const personItemImg = $("<div />", {
+                        "class": "movie-item-img",
+                        "float": "right",
+                    });
+                    const personItemDetails = $("<div />", {
+                        "class": "movie-item-details",
+                    });
+                    personItemImg.appendTo(personItem);
+                    personItemDetails.appendTo(personItem);
+
+                    $("<img>", {
+                        "src": "https://image.tmdb.org/t/p/w200" + person.profile_path,
+                        "width": "100px",
+                        "height": "150px",
+                        "onerror": "this.src='img/img_not_found.png'",
+                    }).appendTo(personItemImg);
+
+                    $(personItemDetails).append(
+                        '<p>\
+                            <span class="title">Name: </span>\
+                            <span class="desc">' + person.name + '</span>\
+                        </p>\
+                        <p>\
+                            <span class="title">Main Activity: </span>\
+                            <span class="desc">' + person.known_for_department + '</span>\
+                        </p>'
+                    );
 
                     personItem.on("click", function() {
                         showPersonInfo(person.id);
@@ -181,7 +229,6 @@ $(document).ready(function() {
                 showError(data.status.toString());
             });
         }
-
     });
 
     // Show an Error Message based on the received Code Status
@@ -198,15 +245,16 @@ $(document).ready(function() {
         $("#errorMessage").html(msgError);
         $("#searchResult").hide();
         $("#errorMessage").show();
-
     }
 
+    // Movie Information - Modal
     function showMovieInfo(id) {
         console.log("showMovieInfo");
         console.log("id", id);
 
         // Empty the previous Results
-        $("#modalInfoContent").empty();
+        $("#modalInfoContent1").empty();
+        $("#modalInfoContent2").empty();
         $("#modalTitle").html("Movie Information");
 
         const movieId = id;
@@ -217,8 +265,6 @@ $(document).ready(function() {
             type: "GET"
         })
         .done(function (movie) {
-            console.log("movie", movie);
-            // TODO: add error for no matches
             const movieInfo = $("<article />", {
                 "class": "movieInfo",
                 "id": movie.id
@@ -246,8 +292,10 @@ $(document).ready(function() {
                     <span class="body">' + movie.overview + '</span>\
                 </section>\
                 <section>\
-                    <span class="tag">Homepage: </span>\
-                    <span class="body">' + movie.homepage + '</span>\
+                    <span class="tag">Link: </span>\
+                    <span class="body">\
+                        <a href="' + movie.homepage + '" target="_blank">' + movie.homepage + '</a>\
+                    </span>\
                 </section>\
                 <section>\
                     <span class="tag">Genres: </span>\
@@ -274,7 +322,7 @@ $(document).ready(function() {
                 );
             });
 
-            movieInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
+            movieInfo.appendTo($("#modalInfoContent1")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
@@ -288,9 +336,6 @@ $(document).ready(function() {
             type: "GET"
         })
         .done(function (movieCredits) {
-            console.log("movieCredits", movieCredits);
-            // TODO: add error for no matches
-
             const movieInfo2 = $("<article />", {
                 "class": "movieInfo",
             });
@@ -300,9 +345,33 @@ $(document).ready(function() {
                     <span class="tag">List of actors: </span>\
                 </section>'
             );
+
+            const tableActorList = $("<table>", {
+                "class": "table table-hover table-striped table-actor-list",
+            });
+            tableActorList.appendTo(movieInfo2);
+
+            $(tableActorList).append(
+                    '<thead>' +
+                        '<tr>' +
+                            '<th>Profile</th>' +
+                            '<th>Actor Name</th>' +
+                            '<th>Character</th>' +
+                        '</tr>' +
+                    '<thead>'
+            );
+
             $.each(movieCredits.cast, function (index1, cast) {
-                $(movieInfo2).append(
-                    '<span class="body">' + cast.name + ' as ' + cast.character + '</span>'
+                $(tableActorList).append(
+                    '<tr>\
+                        <td>\
+                            <img src="https://image.tmdb.org/t/p/w200' + cast.profile_path + '"\
+                                onerror="this.src=\'img/img_not_found.png\'"\
+                                class="img-actor-small"/>\
+                        </td>\
+                        <td>' + cast.name + '</td>\
+                        <td>' + cast.character + '</td>\
+                    </tr>'
                 );
             });
 
@@ -315,7 +384,7 @@ $(document).ready(function() {
             $.each(movieCredits.crew, function (index1, crew) {
                 if (crew.job == 'Director')
                 $(movieInfo2).append(
-                    '<span class="body">' + crew.name + '</span>'
+                    '<span class="body">' + crew.name + ', ' + '</span>'
                 );
             });
 
@@ -328,7 +397,7 @@ $(document).ready(function() {
             $.each(movieCredits.crew, function (index1, crew) {
                 if (crew.job == 'Writer')
                     $(movieInfo2).append(
-                        '<span class="body">' + crew.name + '</span>'
+                        '<span class="body">' + crew.name + ', ' + '</span>'
                     );
             });
 
@@ -341,7 +410,7 @@ $(document).ready(function() {
             $.each(movieCredits.crew, function (index1, crew) {
                 if (crew.job == 'Executive Producer')
                     $(movieInfo2).append(
-                        '<span class="body">' + crew.name + '</span>'
+                        '<span class="body">' + crew.name + ', ' + '</span>'
                     );
             });
 
@@ -352,10 +421,11 @@ $(document).ready(function() {
             );
 
             $.each(movieCredits.crew, function (index1, crew) {
-                if (crew.job == 'Producer')
+                if (crew.job == 'Producer') {
                     $(movieInfo2).append(
-                        '<span class="body">' + crew.name + '</span>'
+                        '<span class="body">' + crew.name + ', ' + '</span>'
                     );
+                }
             });
 
             $(movieInfo2).append(
@@ -367,23 +437,25 @@ $(document).ready(function() {
             $.each(movieCredits.crew, function (index1, crew) {
                 if (crew.job == 'Music')
                     $(movieInfo2).append(
-                        '<span class="body">' + crew.name + '</span>'
+                        '<span class="body">' + crew.name + ', ' + '</span>'
                     );
             });
 
-            movieInfo2.appendTo($("#modalInfoContent")); // Add to the DOM element
+            movieInfo2.appendTo($("#modalInfoContent2")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
         });
     }
 
+    // Person Information - Modal
     function showPersonInfo(id) {
         console.log("showPersonInfo");
         console.log("id", id);
 
         // Empty the previous Results
-        $("#modalInfoContent").empty();
+        $("#modalInfoContent1").empty();
+        $("#modalInfoContent2").empty();
         $("#modalTitle").html("Person Information");
 
         const personId = id;
@@ -394,8 +466,6 @@ $(document).ready(function() {
             type: "GET"
         })
         .done(function (person) {
-            console.log("movie", person);
-            // TODO: add error for no matches
             const personInfo = $("<article />", {
                 "class": "personInfo",
                 "id": personId
@@ -424,7 +494,9 @@ $(document).ready(function() {
                 </section>\
                 <section>\
                     <span class="tag">Link to Website: </span>\
-                    <span class="body">' + person.homepage + '</span>\
+                    <span class="body">\
+                        <a href="' + person.homepage + '" target="_blank">' + person.homepage + '</a>\
+                    </span>\
                 </section>'
                 );
 
@@ -437,7 +509,7 @@ $(document).ready(function() {
                 );
             }
 
-            personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
+            personInfo.appendTo($("#modalInfoContent1")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
@@ -450,8 +522,6 @@ $(document).ready(function() {
             type: "GET"
         })
         .done(function (credits) {
-            console.log("movie", credits);
-            // TODO: add error for no matches
             const personInfo = $("<article />", {
                 "class": "personInfo",
                 "id": personId
@@ -463,39 +533,89 @@ $(document).ready(function() {
                 </section>'
             );
 
-            $.each(credits.cast, function (index1, cast) {
-                console.log("---- cast.title", cast.title)
-                $(personInfo).append(
-                    '<section>\
-                        <span class="tag">Title: </span>\
-                        <span class="body">' + cast.title + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Release Year: </span>\
-                        <span class="body">' + cast.release_date.substring(0,4) + '</span>\
-                    </section>'
+            // Credits for Cast - Table
+            if (credits.cast.length > 0) {
+                const tableMoviesList = $("<table>", {
+                    "class": "table table-hover table-striped table-actor-list",
+                });
+                tableMoviesList.appendTo(personInfo);
+
+                $(tableMoviesList).append(
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>Poster</th>' +
+                    '<th>Movie Title</th>' +
+                    '<th>Release Year</th>' +
+                    '<th>Role</th>' +
+                    '</tr>' +
+                    '<thead>'
                 );
-            });
 
-            $.each(credits.crew, function (index1, crew) {
-                console.log("---- crew.title", crew.title)
-                $(personInfo).append(
-                    '<section>\
-                        <span class="tag">Title: </span>\
-                        <span class="body">' + crew.original_title + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Release Year: </span>\
-                        <span class="body">' + crew.release_date.substring(0,4) + '</span>\
-                    </section>\
-                    <section>\
-                        <span class="tag">Role: </span>\
-                        <span class="body">' + crew.job + '</span>\
-                    </section>'
+                $.each(credits.cast, function (index1, cast) {
+                    let release_year;
+                    if(cast.release_date !== undefined) {
+                        release_year = cast.release_date.substring(0,4)
+                    } else {
+                        release_year = 'unknown'
+                    }
+
+                    $(tableMoviesList).append(
+                        '<tr>\
+                            <td>\
+                                <img src="https://image.tmdb.org/t/p/w200' + cast.poster_path + '"\
+                                onerror="this.src=\'img/img_not_found.png\'"\
+                                class="img-actor-small"/>\
+                        </td>\
+                        <td>' + cast.title + '</td>\
+                        <td>' + release_year + '</td>\
+                        <td>' + 'Actor' + '</td>\
+                    </tr>'
                     );
-            });
-            personInfo.appendTo($("#modalInfoContent")); // Add to the DOM element
+                });
+            }
 
+            // Credits for Crew - Table
+            if (credits.crew.length > 0) {
+                const tableMoviesList2 = $("<table>", {
+                    "class": "table table-hover table-striped table-actor-list",
+                });
+                tableMoviesList2.appendTo(personInfo);
+
+                $(tableMoviesList2).append(
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>Poster</th>' +
+                    '<th>Movie Title</th>' +
+                    '<th>Release Year</th>' +
+                    '<th>Role</th>' +
+                    '</tr>' +
+                    '<thead>'
+                );
+
+                $.each(credits.crew, function (index1, crew) {
+                    let release_year;
+                    if(crew.release_date !== undefined) {
+                        release_year = crew.release_date.substring(0,4)
+                    } else {
+                        release_year = 'unknown'
+                    }
+
+                    $(tableMoviesList2).append(
+                        '<tr>\
+                            <td>\
+                                <img src="https://image.tmdb.org/t/p/w200' + crew.poster_path + '"\
+                                onerror="this.src=\'img/img_not_found.png\'"\
+                                class="img-actor-small"/>\
+                        </td>\
+                        <td>' + crew.original_title + '</td>\
+                        <td>' + release_year + '</td>\
+                        <td>' + crew.job + '</td>\
+                    </tr>'
+                    );
+                });
+            }
+
+            personInfo.appendTo($("#modalInfoContent2")); // Add to the DOM element
         })
         .fail(function (data) {
             showError(data.status.toString());
